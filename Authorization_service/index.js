@@ -12,20 +12,6 @@ App.use(cors());
 
 validateUser();
 
-// const queueName = "test";
-// const msg = "Hello World";
-
-// const sndMsg = async () => {
-//   const connection = await amqplib.connect("amqp://localhost");
-//   const channel = await connection.createChannel();
-//   await channel.assertQueue(queueName, { durable: false });
-//   channel.sendToQueue(queueName, Buffer.from(msg));
-//   console.log(`Sent: ${msg}`);
-//   setTimeout(() => {
-//     connection.close();
-//   }, 500);
-// };
-
 App.get("/hello", async (req, res) => {
   await sndMsg();
   res.status(200).send({ message: "hello from Authorization server" });

@@ -1,6 +1,5 @@
 const bodyParser = require("body-parser");
 const { default: helmet } = require("helmet");
-const amqplib = require("amqplib");
 const cors = require("cors");
 const { createTenantUser } = require("./rabbit/receivers");
 const InviteTeamRouter = require("./src/routes/Onboarding/invite");
