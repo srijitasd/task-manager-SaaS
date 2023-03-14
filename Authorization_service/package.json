@@ -1,0 +1,23 @@
+{
+  "name": "authorization_service",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "env-cmd -f ./config/.env nodemon ./index.js -e hbs,js"
+  },
+  "author": "Srijit Das",
+  "license": "ISC",
+  "dependencies": {
+    "amqplib": "^0.10.3",
+    "axios": "^1.3.4",
+    "body-parser": "^1.20.2",
+    "cors": "^2.8.5",
+    "env-cmd": "^10.1.0",
+    "express": "^4.18.2",
+    "helmet": "^6.0.1",
+    "http-proxy-middleware": "^2.0.6",
+    "jsonwebtoken": "^9.0.0"
+  }
+}

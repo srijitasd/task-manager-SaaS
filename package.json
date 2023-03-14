@@ -1,0 +1,19 @@
+{
+  "name": "saas",
+  "version": "1.0.0",
+  "description": "Task SaaS app",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/srijitasd/task-manager-SaaS.git"
+  },
+  "author": "Srijit Das",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/srijitasd/task-manager-SaaS/issues"
+  },
+  "homepage": "https://github.com/srijitasd/task-manager-SaaS#readme"
+}
