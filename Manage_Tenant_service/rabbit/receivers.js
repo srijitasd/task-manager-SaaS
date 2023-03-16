@@ -25,7 +25,7 @@ exports.validateTenant = async () => {
           channel.publish(
             VALIDATE_TENANT.exchangeName,
             VALIDATE_TENANT.confirmRoutingKey,
-            Buffer.from(JSON.stringify(validCompany.slug))
+            Buffer.from(JSON.stringify({ slug: validCompany.slug, tenantId: validCompany._id }))
           );
         } else {
           channel.publish(

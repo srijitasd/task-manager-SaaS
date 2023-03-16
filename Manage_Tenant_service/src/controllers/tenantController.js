@@ -51,19 +51,18 @@ const createTenant = async (req, res) => {
     console.log(content, consumerTag);
 
     if (content.err !== undefined) {
-      console.log("hi");
       throw { error: content.err.message };
-    } else {
-      await session.commitTransaction();
-      res.status(201).send(content);
-      channel.cancel(consumerTag);
     }
-  } catch ({ error }) {
-    console.log(error);
-    await session.abortTransaction();
-    res.status(400).send(error);
+
+    await session.commitTransaction();
+    res.status(201).send(content);
+    channel.cancel(consumerTag);
+  } catch (error) {
+    if (error.code === 11000) {
+      await session.abortTransaction();
+      res.status(400).send({ error: "This slug is already taken" });
+    }
   } finally {
-    console.log("finally");
     await session.endSession();
   }
 };

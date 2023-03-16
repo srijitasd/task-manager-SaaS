@@ -1,13 +1,23 @@
 const amqplib = require("amqplib");
 const { VALIDATE_TENANT, VALIDATE_USER, INVITE_EMAIL } = require("./constants");
 
-const rabbitBirth = async () => {
-  const conn = await amqplib.connect(process.env.RABBIT_CONNECTION);
-
-  return await conn.createConfirmChannel();
+let conn;
+const getRabbitConn = async () => {
+  if (conn) {
+    return conn;
+  } else if (!conn) {
+    conn = await amqplib.connect(process.env.RABBIT_CONNECTION);
+    return conn;
+  }
 };
 
-const validateTenant = async (channel, data) => {
+const rabbitBirth = async () => {
+  const conn = await getRabbitConn();
+  return conn.createChannel();
+};
+
+const validateTenantRabbit = async (channel, data) => {
+  console.log(data);
   await channel.assertExchange(VALIDATE_TENANT.exchangeName, VALIDATE_TENANT.exchangeType);
   channel.publish(
     VALIDATE_TENANT.exchangeName,
@@ -94,4 +104,4 @@ const sendMail = async (channel, data) => {
   return { content, consumerTag };
 };
 
-module.exports = { rabbitBirth, validateTenant, validateUser, sendMail };
+module.exports = { rabbitBirth, validateTenantRabbit, validateUser, sendMail };

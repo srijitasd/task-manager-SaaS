@@ -1,12 +1,18 @@
 const amqplib = require("amqplib");
 
-const rabbitBirth = async () => {
-  const conn = await amqplib.connect(process.env.RABBIT_CONNECTION);
+let conn;
+const getRabbitConn = async () => {
+  if (conn) {
+    return conn;
+  } else if (!conn) {
+    conn = await amqplib.connect(process.env.RABBIT_CONNECTION);
+    return conn;
+  }
+};
 
-  conn.addListener("error", (err) => {
-    console.log(`RabbitMq error: ${err}`);
-  });
-  return await conn.createConfirmChannel();
+const rabbitBirth = async () => {
+  const conn = await getRabbitConn();
+  return conn.createChannel();
 };
 
 module.exports = rabbitBirth;
