@@ -7,4 +7,13 @@ const VALIDATE_USER = {
   confirmRoutingKey: "user.validate.complete",
 };
 
-module.exports = { VALIDATE_USER };
+const VALIDATE_DOMAIN = {
+  exchangeName: "VALIDATE_DOMAIN",
+  exchangeType: "direct",
+  routingKey: "domain.validate",
+  queueName: "domain.validate",
+  confirmQueue: "domain.validate.complete",
+  confirmRoutingKey: "domain.validate.complete",
+};
+
+module.exports = { VALIDATE_USER, VALIDATE_DOMAIN };

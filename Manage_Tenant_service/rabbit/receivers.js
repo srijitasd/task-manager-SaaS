@@ -1,13 +1,13 @@
 const rabbitBirth = require("../rabbit/utils");
-const { VALIDATE_TENANT } = require("./constants");
+const { VALIDATE_DOMAIN } = require("./constants");
 const Tenant = require("../src/models/tenant");
 
 exports.validateTenant = async () => {
   const channel = await rabbitBirth();
   try {
-    channel.assertExchange(VALIDATE_TENANT.exchangeName, VALIDATE_TENANT.exchangeType);
-    const { queue } = await channel.assertQueue(VALIDATE_TENANT.queueName);
-    channel.bindQueue(queue, VALIDATE_TENANT.exchangeName, VALIDATE_TENANT.routingKey);
+    channel.assertExchange(VALIDATE_DOMAIN.exchangeName, VALIDATE_DOMAIN.exchangeType);
+    const { queue } = await channel.assertQueue(VALIDATE_DOMAIN.queueName);
+    channel.bindQueue(queue, VALIDATE_DOMAIN.exchangeName, VALIDATE_DOMAIN.routingKey);
 
     channel.consume(
       queue,
@@ -23,14 +23,14 @@ exports.validateTenant = async () => {
 
         if (validCompany !== null) {
           channel.publish(
-            VALIDATE_TENANT.exchangeName,
-            VALIDATE_TENANT.confirmRoutingKey,
+            VALIDATE_DOMAIN.exchangeName,
+            VALIDATE_DOMAIN.confirmRoutingKey,
             Buffer.from(JSON.stringify({ slug: validCompany.slug, tenantId: validCompany._id }))
           );
         } else {
           channel.publish(
-            VALIDATE_TENANT.exchangeName,
-            VALIDATE_TENANT.confirmRoutingKey,
+            VALIDATE_DOMAIN.exchangeName,
+            VALIDATE_DOMAIN.confirmRoutingKey,
             Buffer.from(
               JSON.stringify({
                 err: {
@@ -47,8 +47,8 @@ exports.validateTenant = async () => {
     console.log("err");
 
     channel.publish(
-      VALIDATE_TENANT.exchangeName,
-      VALIDATE_TENANT.confirmRoutingKey,
+      VALIDATE_DOMAIN.exchangeName,
+      VALIDATE_DOMAIN.confirmRoutingKey,
       Buffer.from(JSON.stringify({ err }))
     );
   }
