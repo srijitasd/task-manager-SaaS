@@ -33,6 +33,7 @@ const validateDomainRabbit = async (channel, data) => {
       queue,
       async (msg) => {
         console.log("Consuming TENANT VALIDATION service");
+        console.log(msg.content.toString());
         resolve({
           content: JSON.parse(msg.content.toString()),
           consumerTag: msg.fields.consumerTag,

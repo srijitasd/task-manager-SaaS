@@ -9,7 +9,7 @@ const validateTenantMiddleware = async (req, res, next) => {
         origin: req.headers.origin,
       }
     );
-    console.log(tenantContent);
+    console.log(`line 12 ${tenantContent}`);
     await channel.cancel(originConsumerTag);
     res.locals.tenantId = tenantContent.tenantId;
     res.locals.slug = tenantContent.slug;

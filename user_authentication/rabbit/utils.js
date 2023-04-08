@@ -1,5 +1,5 @@
 const amqplib = require("amqplib");
-const { VALIDATE_TENANT, VALIDATE_USER, INVITE_EMAIL } = require("./constants");
+const { VALIDATE_DOMAIN, VALIDATE_USER, INVITE_EMAIL } = require("./constants");
 
 let conn;
 const getRabbitConn = async () => {
@@ -17,16 +17,15 @@ const rabbitBirth = async () => {
 };
 
 const validateTenantRabbit = async (channel, data) => {
-  console.log(data);
-  await channel.assertExchange(VALIDATE_TENANT.exchangeName, VALIDATE_TENANT.exchangeType);
+  await channel.assertExchange(VALIDATE_DOMAIN.exchangeName, VALIDATE_DOMAIN.exchangeType);
   channel.publish(
-    VALIDATE_TENANT.exchangeName,
-    VALIDATE_TENANT.routingKey,
+    VALIDATE_DOMAIN.exchangeName,
+    VALIDATE_DOMAIN.routingKey,
     Buffer.from(JSON.stringify(data))
   );
 
-  const { queue } = await channel.assertQueue(VALIDATE_TENANT.confirmQueue);
-  channel.bindQueue(queue, VALIDATE_TENANT.exchangeName, VALIDATE_TENANT.confirmRoutingKey);
+  const { queue } = await channel.assertQueue(VALIDATE_DOMAIN.confirmQueue);
+  channel.bindQueue(queue, VALIDATE_DOMAIN.exchangeName, VALIDATE_DOMAIN.confirmRoutingKey);
 
   const { content, consumerTag } = await new Promise((resolve, reject) => {
     channel.consume(

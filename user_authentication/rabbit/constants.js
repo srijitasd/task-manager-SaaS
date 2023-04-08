@@ -7,13 +7,13 @@ const REGISTER_TENANT = {
   confirmRoutingKey: "tenant.signup.complete",
 };
 
-const VALIDATE_TENANT = {
-  exchangeName: "VALIDATE_TENANT",
+const VALIDATE_DOMAIN = {
+  exchangeName: "VALIDATE_DOMAIN",
   exchangeType: "direct",
-  routingKey: "tenant.validate",
-  queueName: "tenant.validate",
-  confirmQueue: "tenant.validate.complete",
-  confirmRoutingKey: "tenant.validate.complete",
+  routingKey: "domain.validate",
+  queueName: "domain.validate",
+  confirmQueue: "domain.validate.complete",
+  confirmRoutingKey: "domain.validate.complete",
 };
 
 const VALIDATE_USER = {
@@ -34,4 +34,4 @@ const INVITE_EMAIL = {
   confirmRoutingKey: "mail.invite.sent",
 };
 
-module.exports = { REGISTER_TENANT, VALIDATE_TENANT, VALIDATE_USER, INVITE_EMAIL };
+module.exports = { REGISTER_TENANT, VALIDATE_DOMAIN, VALIDATE_USER, INVITE_EMAIL };

@@ -99,7 +99,7 @@ const loginUser = async (req, res) => {
 };
 
 const refreshToken = async (req, res) => {
-  res.status(200).send(res.locals.user);
+  res.status(200).send({ status: "ok" });
 };
 
 module.exports = { signupUser, loginUser, refreshToken };

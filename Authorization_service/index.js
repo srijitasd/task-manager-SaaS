@@ -17,6 +17,7 @@ App.use(cors());
 App.use(cookieParser());
 
 App.get("/validate", async (req, res) => {
+  console.log(req.cookies);
   try {
     const channel = await rabbitBirth();
     const { content, consumerTag } = await validateDomainRabbit(channel, {
