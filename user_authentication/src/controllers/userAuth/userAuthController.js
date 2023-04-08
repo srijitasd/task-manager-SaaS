@@ -98,8 +98,73 @@ const loginUser = async (req, res) => {
   }
 };
 
+const logoutUser = async (req, res) => {
+  try {
+    //* CHECK FOR REFRESH TOKEN
+    if (req.cookies.refreshToken === undefined) {
+      throw {
+        error: "error",
+      };
+    }
+
+    const decodedData = jwt.verify(userData.refreshToken, process.env.JWT_ACCESS);
+
+    if (!decodedData) {
+      throw {
+        error: {
+          msg: "jwt error",
+        },
+      };
+    }
+
+    const { model: User } = await selectUserAppModel(res.locals.tenantId, "users", "user");
+
+    //* CHECK IF USER ALREADY EXISTS OR NOT
+    const user = await User.findOne({ email: decodedData._id });
+
+    user.tokens = user.tokens.filter((tokenObj) => tokenObj.token !== req.cookies.refreshToken);
+    await user.save();
+    res.status(200);
+  } catch (error) {
+    res.status(400).send(e);
+  }
+};
+
+const logoutUserAll = async (req, res) => {
+  try {
+    //* CHECK FOR REFRESH TOKEN
+    if (req.cookies.refreshToken === undefined) {
+      throw {
+        error: "error",
+      };
+    }
+
+    const decodedData = jwt.verify(userData.refreshToken, process.env.JWT_ACCESS);
+
+    if (!decodedData) {
+      throw {
+        error: {
+          msg: "jwt error",
+        },
+      };
+    }
+
+    const { model: User } = await selectUserAppModel(res.locals.tenantId, "users", "user");
+
+    //* CHECK IF USER ALREADY EXISTS OR NOT
+    const user = await User.findOne({ email: decodedData._id });
+
+    delete user.tokens;
+    user.save();
+
+    res.status(200);
+  } catch (error) {
+    res.status(400).send(e);
+  }
+};
+
 const refreshToken = async (req, res) => {
   res.status(200).send({ status: "ok" });
 };
 
-module.exports = { signupUser, loginUser, refreshToken };
+module.exports = { signupUser, loginUser, logoutUser, logoutUserAll, refreshToken };
