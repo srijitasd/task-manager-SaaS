@@ -1,0 +1,9 @@
+Replica set is established using mongodb
+
+MongoDb
+1.  rs.initiate() to initiate replica set
+2.  rs.add("<port>:<port>") to add replica set
+3.  rs.status() to check replica set status
+
+Mongoose
+URI -> mongodb://127.0.0.1:27017?replicaSet=rs0&retryWrites=true
